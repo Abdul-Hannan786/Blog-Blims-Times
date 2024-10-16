@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import AuthContextProvider from "@/Context/AuthContext";
 import Navbar from "@/Components/Navbar";
 
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -28,17 +29,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <AuthContextProvider>
-      <html lang="en" data-theme="black, cmyk">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-          data-theme="mytheme cmyk"
-        >
-          <Navbar />
-          {children}
-          <ToastContainer autoClose={2000} />
-        </body>
-      </html>
-    </AuthContextProvider>
+      <AuthContextProvider>
+        <html lang="en" data-theme="black, cmyk">
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+            data-theme="mytheme cmyk"
+          >
+            <Navbar />
+            {children}
+            <ToastContainer autoClose={2000} />
+          </body>
+        </html>
+      </AuthContextProvider>
   );
 }

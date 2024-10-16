@@ -1,5 +1,6 @@
 "use client";
 
+
 import {
   loginWithEmailPassword,
   signupWithEmailPassword,
@@ -15,10 +16,12 @@ type AuthFormType = {
 };
 
 const AuthForm = ({ type, msg }: AuthFormType) => {
+  
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const route = useRouter();
+ 
 
   const handleSignup = (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -44,10 +47,11 @@ const AuthForm = ({ type, msg }: AuthFormType) => {
     setEmail("");
     setPassword("");
   };
+
   return (
     <>
       <div className="flex flex-col justify-center p-5">
-        <div className="card bg-base-100 w-full max-w-[430px] shrink-0 shadow-2xl mx-auto mt-16 ">
+        <div className="card bg-base-100 w-full max-w-[430px] shrink-0 shadow-2xl mx-auto mt-16 border-slate-100 border-2">
           <h1 className="text-center font-bold text-2xl mt-5">Welcome Back</h1>
           <p className="text-center mt-1 text-gray-600">{msg}</p>
           <form className="card-body">
@@ -68,7 +72,7 @@ const AuthForm = ({ type, msg }: AuthFormType) => {
               </div>
             )}
 
-            <div className="form-control">
+            <div className="form-control ">
               <label className="label">
                 <span className="label-text font-semibold text-[15px]">
                   Email
@@ -109,7 +113,7 @@ const AuthForm = ({ type, msg }: AuthFormType) => {
                     Already have an account?{" "}
                     <Link
                       href={"./signin"}
-                      className="text-black font-semibold"
+                      className="font-semibold text-primary"
                     >
                       Sign In
                     </Link>
@@ -127,7 +131,7 @@ const AuthForm = ({ type, msg }: AuthFormType) => {
                     Don&apos;t have an account yet?{" "}
                     <Link
                       href={"./signup"}
-                      className="text-black font-semibold"
+                      className="font-semibold text-primary"
                     >
                       Sign Up
                     </Link>

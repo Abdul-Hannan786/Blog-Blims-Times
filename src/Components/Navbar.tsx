@@ -1,16 +1,22 @@
 "use client";
 
+import { useAuthContext } from "@/Context/AuthContext";
 import { signOutFunc } from "@/Firebase/firebaseAuth";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { BiLogOut } from "react-icons/bi";
 import { FaUser } from "react-icons/fa";
 import { FiLogIn } from "react-icons/fi";
 import { HiHome } from "react-icons/hi";
 
 const Navbar = () => {
+  const { user } = useAuthContext()!;
+  const route = useRouter();
+
   const handleLogout = () => {
     signOutFunc();
+    route.push("/");
   };
   return (
     <div className="navbar bg-primary">
@@ -63,6 +69,17 @@ const Navbar = () => {
                 Sign in
               </Link>
             </li>
+            {user?.userType === "admin" && (
+              <li className="mt-1">
+                <Link
+                  href={"/admin"}
+                  className="bg-primary font-semibold hover:bg-sky-600"
+                >
+                  <FiLogIn />
+                 Admin dashboard
+                </Link>
+              </li>
+            )}
             <li className="mt-1" onClick={handleLogout}>
               <div className="bg-gray-900 font-semibold text-white hover:bg-gray-950">
                 <BiLogOut />
@@ -79,7 +96,7 @@ const Navbar = () => {
             alt="logo"
             width={55}
             height={25}
-            className="rounded-full"
+            className="rounded-full w-12 md:w-14"
           />
         </Link>
       </div>
@@ -113,34 +130,40 @@ const Navbar = () => {
             </svg>
           </label>
         </button>
-        <div className="dropdown dropdown-end">
-          <div
-            tabIndex={0}
-            role="button"
-            className="btn btn-ghost btn-circle avatar"
-          >
-            <div className="w-10 rounded-full">
-              {/* <Image
-                alt="Tailwind CSS Navbar component"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                width={20}
-                height={20}
-              /> */}
+        {user && (
+          <div className="dropdown dropdown-end">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle avatar"
+            >
+              <div className="w-10 rounded-full">
+                <Image
+                  alt="Tailwind CSS Navbar component"
+                  src="/images/user.png"
+                  width={50}
+                  height={50}
+                  className="object-fill w-10"
+                  priority
+                />
+              </div>
             </div>
+            <ul
+              tabIndex={0}
+              className="menu menu-md dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+            >
+              <li>
+                <Link
+                  href={"/"}
+                  className="bg-primary font-semibold hover:bg-sky-600"
+                >
+                  <FaUser />
+                  Profile
+                </Link>
+              </li>
+            </ul>
           </div>
-          <ul
-            tabIndex={0}
-            className="menu menu-md dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
-          >
-            <li>
-              <Link href={"/"} className="bg-primary font-semibold hover:bg-sky-600">
-              <FaUser />
-                Profile
-              </Link>
-            </li>
-
-          </ul>
-        </div>
+        )}
       </div>
     </div>
   );
