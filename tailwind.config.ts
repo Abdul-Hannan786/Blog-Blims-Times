@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import typography from "@tailwindcss/typography";
 
 import daisyui from "daisyui";
 const config: Config = {
@@ -9,13 +10,16 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      boxShadow: {
+        'custom-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.7), 0 4px 6px -4px rgba(0, 0, 0, 0.5)',
+      },
       // colors: {
       //   background: "var(--background)",
       //   foreground: "var(--foreground)",
       // },
     },
   },
-  plugins: [daisyui],
+  plugins: [daisyui, typography],
   daisyui: {
     themes: [
       "cmyk",
