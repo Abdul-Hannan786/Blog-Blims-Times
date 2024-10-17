@@ -1,4 +1,11 @@
-import { addDoc, collection, doc, setDoc, updateDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { db, storage } from "./firebaseConfig";
 import { BlogType } from "@/Types/all-types";
 import { toast } from "react-toastify";
@@ -29,7 +36,7 @@ export async function saveBlog({
 }: BlogType) {
   try {
     const uploadImage = async () => {
-      if (!file) return
+      if (!file) return;
       const imageRef = ref(
         storage,
         `images/blog-images/${makeImageName(file)}`
@@ -81,11 +88,15 @@ export async function saveBlog({
   }
 }
 
-
 function makeImageName(file: File) {
   const imageName = file.name.split(".");
   const lastIndex = imageName.length - 1;
   const imageType = imageName[lastIndex];
   const newName = `${crypto.randomUUID()}.${imageType}`;
   return newName;
+}
+
+export async function DeleteBlog(id: string) {
+  const docRef = doc(db, "blogs", id);
+  await deleteDoc(docRef);
 }

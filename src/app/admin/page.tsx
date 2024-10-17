@@ -3,6 +3,7 @@
 import AdminTable from "@/Components/AdminTable";
 import Loader from "@/Components/Loader";
 import { db } from "@/Firebase/firebaseConfig";
+import { DeleteBlog } from "@/Firebase/firebaseFirestore";
 import { collection, DocumentData, getDocs } from "firebase/firestore";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -35,6 +36,18 @@ const Admin = () => {
     }
   };
 
+  const handleDelete = async (firebaseID: string) => {
+    setIsLoading(true);
+    try {
+      await DeleteBlog(firebaseID)
+      setCards((prevCards) => prevCards.filter((card) => card.firebaseID !== firebaseID))
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="">
       <div className="p-5">
@@ -59,16 +72,23 @@ const Admin = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {cards.map(({ title, tag, imageURL, createdDate }, index) => (
-                    <AdminTable
-                      key={index + title}
-                      title={title}
-                      tag={tag}
-                      imageURL={imageURL}
-                      index={index}
-                      createdDate={createdDate}
-                    />
-                  ))}
+                  {cards.map(
+                    (
+                      { title, tag, imageURL, createdDate, firebaseID },
+                      index
+                    ) => (
+                      <AdminTable
+                        key={index + title}
+                        title={title}
+                        tag={tag}
+                        imageURL={imageURL}
+                        index={index}
+                        createdDate={createdDate}
+                        firebaseID={firebaseID}
+                        deleteFunc={handleDelete}
+                      />
+                    )
+                  )}
                 </tbody>
               </table>
             </div>

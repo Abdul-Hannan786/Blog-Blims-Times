@@ -9,7 +9,6 @@ import Loader from "./Loader";
 
 const AddBlogForm = () => {
   const [title, setTitle] = useState("");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [file, setFile] = useState<File>();
   const [tag, setTag] = useState("Entertainment");
   const [content, setContent] = useState("");
@@ -18,20 +17,20 @@ const AddBlogForm = () => {
 
   const makeSlug = (title: string) => {
     return title
-      .toLowerCase() // Convert to lowercase
-      .trim() // Remove spaces from the start and end
-      .replace(/[^a-z0-9\s-]/g, "") // Remove any non-alphanumeric characters
-      .replace(/\s+/g, "-") // Replace spaces with hyphens
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9\s-]/g, "")
+      .replace(/\s+/g, "-")
       .replace(/-+/g, "-");
   };
 
   const createBlog = async (event: FormEvent) => {
-    event.preventDefault(); // Prevent default form submission
+    event.preventDefault();
     if (title.trim() === "" || !file || content.trim() === "") {
       toast.error("Please fill all the fields");
       return;
     }
-    setIsLoading(true); // Show loader
+    setIsLoading(true); 
     try {
       const slug = makeSlug(title);
       await saveBlog({
@@ -46,7 +45,7 @@ const AddBlogForm = () => {
     } catch (error) {
       toast.error(`Couldn't add blog! ${error}`);
     } finally {
-      setIsLoading(false); // Hide loader
+      setIsLoading(false);
     }
   };
 

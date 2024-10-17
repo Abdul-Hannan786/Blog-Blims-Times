@@ -7,6 +7,8 @@ type AdminTableType = {
   tag: string;
   index: number;
   createdDate: string;
+  firebaseID: string;
+  deleteFunc: (firebaseID: string) => void;
 };
 
 const AdminTable = ({
@@ -15,6 +17,8 @@ const AdminTable = ({
   tag,
   index,
   createdDate,
+  firebaseID,
+  deleteFunc,
 }: AdminTableType) => {
   return (
     <tr>
@@ -28,7 +32,7 @@ const AdminTable = ({
                 alt="blog image"
                 width={50}
                 height={50}
-                className="object-cover w-auto"
+                className="object-cover w-12 h-12"
               />
             </div>
           </div>
@@ -42,12 +46,17 @@ const AdminTable = ({
         <div className="badge badge-primary font-semibold">{tag}</div>
       </td>
       <th>
-        <button className="btn btn-error">
+        <button
+          className="btn btn-error"
+          onClick={() => {
+            deleteFunc(firebaseID);
+          }}
+        >
           Delete <span className="hidden md:block">Blog</span>
         </button>
       </th>
       <th>
-        <button className="btn btn-accent">
+        <button className="btn btn-neutral">
           Edit <span className="hidden md:block">Blog</span>
         </button>
       </th>
