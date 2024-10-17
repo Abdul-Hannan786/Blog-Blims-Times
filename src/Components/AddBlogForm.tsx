@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { toast } from "react-toastify";
+import Loader from "./Loader";
 
 const AddBlogForm = () => {
   const [title, setTitle] = useState("");
@@ -144,9 +145,7 @@ const AddBlogForm = () => {
 
       {/* Loader and Overlay */}
       {isLoading && (
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50">
-         <span className="loading loading-spinner loading-lg text-primary"></span>
-        </div>
+        <Loader />
       )}
     </div>
   );

@@ -81,7 +81,7 @@ const Navbar = () => {
               </li>
             )}
             <li className="mt-1" onClick={handleLogout}>
-              <div className="bg-gray-900 font-semibold text-white hover:bg-gray-950">
+              <div className="bg-base-100 font-semibold text-neutral">
                 <BiLogOut />
                 Logout
               </div>
