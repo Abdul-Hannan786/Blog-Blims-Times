@@ -74,7 +74,7 @@ const Admin = () => {
                 <tbody>
                   {cards.map(
                     (
-                      { title, tag, imageURL, createdDate, firebaseID },
+                      { title, tag, imageURL, createdDate, firebaseID, slug },
                       index
                     ) => (
                       <AdminTable
@@ -86,6 +86,7 @@ const Admin = () => {
                         createdDate={createdDate}
                         firebaseID={firebaseID}
                         deleteFunc={handleDelete}
+                        slug={slug}
                       />
                     )
                   )}

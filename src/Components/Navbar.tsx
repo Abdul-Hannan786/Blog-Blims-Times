@@ -143,7 +143,7 @@ const Navbar = () => {
                   src="/images/user.png"
                   width={50}
                   height={50}
-                  className="object-fill w-10"
+                  className="object-fill w-10 h-10"
                   priority
                 />
               </div>

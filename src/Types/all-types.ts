@@ -10,9 +10,9 @@ export type BlogType = {
     file: File
     tag: string
     content: string
-    slug: string
-    createdDate: string
-    docID?:string
+    slug?: string
+    createdDate?: string
+    firebaseID?:string
     imageURL?:string
 }
 
@@ -21,8 +21,8 @@ export type CardType = {
     file: File
     tag: string
     content: string
-    slug: string
-    createdDate: string
+    slug?: string
+    createdDate?: string
     docID?:string
     imageURL?:string
 }

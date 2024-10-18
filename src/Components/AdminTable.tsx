@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 type AdminTableType = {
@@ -9,6 +10,7 @@ type AdminTableType = {
   createdDate: string;
   firebaseID: string;
   deleteFunc: (firebaseID: string) => void;
+  slug: string
 };
 
 const AdminTable = ({
@@ -19,7 +21,13 @@ const AdminTable = ({
   createdDate,
   firebaseID,
   deleteFunc,
+  slug
 }: AdminTableType) => {
+  const route = useRouter()
+
+  const handleEdit = () => {
+    route.push(`/admin/editblog/${slug}`)
+  }
   return (
     <tr>
       <th>{index + 1}</th>
@@ -43,7 +51,7 @@ const AdminTable = ({
         </div>
       </td>
       <td>
-        <div className="badge badge-primary font-semibold">{tag}</div>
+        <div className="badge badge-primary font-semibold p-3">{tag}</div>
       </td>
       <th>
         <button
@@ -56,9 +64,9 @@ const AdminTable = ({
         </button>
       </th>
       <th>
-        <button className="btn btn-neutral">
-          Edit <span className="hidden md:block">Blog</span>
-        </button>
+          <button className="btn btn-neutral" onClick={handleEdit}>
+            Edit <span className="hidden md:block">Blog</span>
+          </button>
       </th>
     </tr>
   );
