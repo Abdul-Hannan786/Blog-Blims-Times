@@ -8,6 +8,7 @@ import { collection, DocumentData, getDocs } from "firebase/firestore";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { MdAdd } from "react-icons/md";
+import { toast } from "react-toastify";
 
 const Admin = () => {
   const [cards, setCards] = useState<DocumentData[]>([]);
@@ -41,6 +42,7 @@ const Admin = () => {
     try {
       await DeleteBlog(firebaseID)
       setCards((prevCards) => prevCards.filter((card) => card.firebaseID !== firebaseID))
+      toast.success("Blog deleted successfully!")
     } catch (e) {
       console.log(e);
     } finally {

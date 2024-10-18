@@ -5,6 +5,7 @@ import { signOutFunc } from "@/Firebase/firebaseAuth";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { BiLogOut } from "react-icons/bi";
 import { FaUser } from "react-icons/fa";
 import { FiLogIn } from "react-icons/fi";
@@ -18,6 +19,10 @@ const Navbar = () => {
     signOutFunc();
     route.push("/");
   };
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
   return (
     <div className="navbar bg-primary">
       <div className="navbar-start">
@@ -76,7 +81,7 @@ const Navbar = () => {
                   className="bg-primary font-semibold hover:bg-sky-600"
                 >
                   <FiLogIn />
-                 Admin dashboard
+                  Admin dashboard
                 </Link>
               </li>
             )}

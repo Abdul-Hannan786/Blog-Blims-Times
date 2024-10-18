@@ -30,7 +30,14 @@ const AddBlogForm = () => {
       toast.error("Please fill all the fields");
       return;
     }
-    setIsLoading(true); 
+
+    const fileSizeLimit = 2 * 1024 * 1024; // 2MB
+    if (file && file.size > fileSizeLimit) {
+      toast.error("File size should be less than 2MB");
+      return;
+    }
+
+    setIsLoading(true);
     try {
       const slug = makeSlug(title);
       await saveBlog({
@@ -143,9 +150,7 @@ const AddBlogForm = () => {
       </div>
 
       {/* Loader and Overlay */}
-      {isLoading && (
-        <Loader />
-      )}
+      {isLoading && <Loader />}
     </div>
   );
 };

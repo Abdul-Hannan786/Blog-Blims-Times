@@ -98,7 +98,7 @@ function makeImageName(file: File) {
   const newName = `${crypto.randomUUID()}.${imageType}`;
   return newName;
 }
-
+ 
 export async function DeleteBlog(id: string) {
   const docRef = doc(db, "blogs", id);
   await deleteDoc(docRef);
