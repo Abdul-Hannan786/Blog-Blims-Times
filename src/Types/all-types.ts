@@ -7,7 +7,7 @@ export type UserType = {
 
 export type BlogType = {
     title: string
-    file: File
+    file?: File
     tag: string
     content: string
     slug?: string

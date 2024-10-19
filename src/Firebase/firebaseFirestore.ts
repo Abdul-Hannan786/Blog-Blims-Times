@@ -3,6 +3,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   setDoc,
   updateDoc,
 } from "firebase/firestore";
@@ -98,7 +99,7 @@ function makeImageName(file: File) {
   const newName = `${crypto.randomUUID()}.${imageType}`;
   return newName;
 }
- 
+
 export async function DeleteBlog(id: string) {
   const docRef = doc(db, "blogs", id);
   await deleteDoc(docRef);
@@ -117,56 +118,71 @@ export async function updateBlog({
     toast.error("User is not authenticated!");
     return;
   }
-
+  if (!firebaseID) return;
   try {
-    const uploadImage = async () => {
-      if (!file) {
-        return null;
+    const docRef = doc(db, "blogs", firebaseID);
+    const docSnap = await getDoc(docRef);
+
+    if (!docSnap.exists()) {
+      toast.error("Blog does not exist!");
+      return;
+    }
+
+    const existingBlog = docSnap.data();
+    let imageURL = existingBlog.imageURL;
+
+    try {
+      if (file) {
+        const uploadImage = async () => {
+          const imageRef = ref(
+            storage,
+            `images/blog-images/${makeImageName(file)}`
+          );
+          const uploadTask = uploadBytesResumable(imageRef, file);
+
+          return new Promise<string>((resolve, reject) => {
+            uploadTask.on(
+              "state_changed",
+              (snapshot) => {
+                const progress =
+                  (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log("Upload is " + progress + "% done");
+              },
+              (error) => {
+                console.error("Upload error: ", error);
+                reject(error);
+              },
+              async () => {
+                const downloadURL = await getDownloadURL(
+                  uploadTask.snapshot.ref
+                );
+                console.log("File available at", downloadURL);
+                resolve(downloadURL);
+              }
+            );
+          });
+        };
+
+        // Update imageURL with the newly uploaded image
+        imageURL = await uploadImage();
       }
-      console.log(file);
-      const imageRef = ref(
-        storage,
-        `images/blog-images/${makeImageName(file)}`
-      );
-      const uploadTask = uploadBytesResumable(imageRef, file);
 
-      return new Promise((resolve, reject) => {
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {
-            const progress =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log("Upload is " + progress + "% done");
-          },
-          (error) => {
-            console.error("Upload error: ", error);
-            reject(error);
-          },
-          async () => {
-            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-            console.log("File available at", downloadURL);
-            resolve(downloadURL);
-          }
-        );
-      });
-    };
+      const collectionRef = doc(db, "blogs", firebaseID);
 
-    const imageURL = await uploadImage();
-    if (!firebaseID) return;
-    const collectionRef = doc(db, "blogs", firebaseID);
+      const updatedBlog: BlogType = {
+        title,
+        tag,
+        content,
+        imageURL,
+      };
 
-    const updatedBlog = {
-      title,
-      tag,
-      content,
-      imageURL,
-    };
-
-    await updateDoc(collectionRef, updatedBlog);
-
-    toast.success("Blog edited successfully!");
-  } catch (error) {
-    console.error("Error updating blog:", error);
-    toast.error("Failed to edit the blog.");
+      await updateDoc(collectionRef, updatedBlog);
+      toast.success("Blog edited successfully!");
+    } catch (error) {
+      console.error("Error updating blog:", error);
+      toast.error("Failed to edit the blog.");
+    }
+  } catch (e) {
+    console.log(e);
   }
 }

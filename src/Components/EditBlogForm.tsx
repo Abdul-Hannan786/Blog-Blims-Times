@@ -12,14 +12,11 @@ import { updateBlog } from "@/Firebase/firebaseFirestore";
 const EditBlogForm = ({slug}: {slug: string}) => {
 
   const [isLoading, setIsLoading] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [editblog, setEditBlog] = useState<DocumentData>();
   const [title, setTitle] = useState("");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [file, setFile] = useState<File>();
   const [tag, setTag] = useState("Entertainment");
   const [content, setContent] = useState("");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [firebaseID, setFirebaseID] = useState("")
   const route = useRouter()
 
@@ -56,7 +53,7 @@ const EditBlogForm = ({slug}: {slug: string}) => {
 
   const updateBog = async (event: FormEvent) => {
     event.preventDefault();
-    if (title.trim() === "" || !file || content.trim() === "") {
+    if (title.trim() === "" || content.trim() === "") {
       toast.error("Please fill all the fields");
       return;
     }

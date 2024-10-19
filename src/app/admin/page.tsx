@@ -29,7 +29,6 @@ const Admin = () => {
         return obj;
       });
       setCards(allblog);
-      console.log(allblog);
     } catch (e) {
       console.log(e);
     } finally {
@@ -98,7 +97,7 @@ const Admin = () => {
           </div>
         ) : (
           <div className="h-[75vh] flex items-center justify-center">
-            <h3 className="text-2xl font-bold">No Data Found</h3>
+            <h3 className="text-2xl font-bold mb-16">No Blog Found</h3>
           </div>
         )}
       </div>
