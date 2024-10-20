@@ -159,11 +159,11 @@ const Navbar = () => {
             >
               <li>
                 <Link
-                  href={"/"}
+                  href={"/profile"}
                   className="bg-primary font-semibold hover:bg-sky-600"
                 >
                   <FaUser />
-                  Profile
+                 Go to profile
                 </Link>
               </li>
             </ul>

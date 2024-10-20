@@ -51,11 +51,11 @@ const AdminTable = ({
         </div>
       </td>
       <td>
-        <div className="badge badge-primary font-semibold p-3">{tag}</div>
+        <div className="badge badge-primary font-semibold p-3 text-white">{tag}</div>
       </td>
       <th>
         <button
-          className="btn btn-error"
+          className="btn btn-error text-white"
           onClick={() => {
             deleteFunc(firebaseID);
           }}
