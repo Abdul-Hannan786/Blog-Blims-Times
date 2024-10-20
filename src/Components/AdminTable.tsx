@@ -40,7 +40,7 @@ const AdminTable = ({
                 alt="blog image"
                 width={50}
                 height={50}
-                className="object-cover w-12 h-12"
+                className="object-cover w-full h-full"
               />
             </div>
           </div>

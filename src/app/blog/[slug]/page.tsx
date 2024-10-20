@@ -1,16 +1,11 @@
-"use client";
-
-import { useEffect } from "react";
+import ReadBlog from "@/Components/ReadBlog";
 
 type ReadBlogType = {
   params: { slug: string };
 };
 
-const ReadBlog = ({ params: { slug } }: ReadBlogType) => {
-  useEffect(() => {
-    console.log(slug)
-  }, [])
-  return <div>ReadBlog</div>;
+const Blog = ({ params: { slug } }: ReadBlogType) => {
+  return <ReadBlog slug={slug} />;
 };
 
-export default ReadBlog;
+export default Blog;

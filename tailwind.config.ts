@@ -20,10 +20,10 @@ const config: Config = {
       // },
     },
     screens: {
-      sm: "600px",
+      "sm": "600px",
       "md": "768px",
-      lg: "920px",
-      xl: "1200px",
+      "lg": "920px",
+      "xl": "1200px",
     },
   },
   plugins: [daisyui, typography],

@@ -63,7 +63,7 @@ export default function Home() {
 
       {filteredBlogs.length > 0 ? (
         <div className="flex items-center justify-center">
-          <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-3 2xl:grid-cols-5 mb-10 gap-4">
+          <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-3 2xl:grid-cols-5 mb-6 gap-4">
             {filteredBlogs.map(
               ({ title, content, imageURL, firebaseID, slug, tag }) => (
                 <BlogCard

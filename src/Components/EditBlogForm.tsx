@@ -24,7 +24,7 @@ const EditBlogForm = ({slug}: {slug: string}) => {
     if (!slug) toast.error("Couldn't find the slug");
     fetchBlog();
   }, [slug]);
-
+ 
   const fetchBlog = async () => {
     setIsLoading(true);
     try {

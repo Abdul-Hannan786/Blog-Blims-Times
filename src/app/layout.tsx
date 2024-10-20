@@ -33,7 +33,7 @@ export default function RootLayout({
       <HomeProtectedRoute>
         <html lang="en" data-theme="black, cmyk">
           <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+            className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}
             data-theme="mytheme cmyk"
           >
             <Navbar />
