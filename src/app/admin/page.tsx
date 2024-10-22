@@ -58,7 +58,7 @@ const Admin = () => {
     : cards.filter((blog) => blog.tag === selectedTag);
 
   return (
-    <div className="h-auto flex flex-col mb-10">
+    <div className="h-auto flex flex-col mb-12">
       <div className="flex items-center">
         <div className="p-4 flex-shrink-0">
           <Link href={"/admin/createblog"}>
