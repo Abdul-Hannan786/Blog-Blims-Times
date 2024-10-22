@@ -38,7 +38,7 @@ const Navbar = () => {
       return;
     }
     fetchUser();
-  });
+  }, [user]);
   return (
     <div className="navbar bg-primary">
       <div className="navbar-start">
