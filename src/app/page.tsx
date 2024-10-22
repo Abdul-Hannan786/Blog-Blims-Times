@@ -23,7 +23,6 @@ export default function Home() {
       const allBlogsSnapShot = await getDocs(collectionRef);
       const blogs = allBlogsSnapShot.docs.map((blog) => {
         const obj = blog.data();
-        console.log(obj);
         return obj;
       });
       setAllBlogs(blogs);

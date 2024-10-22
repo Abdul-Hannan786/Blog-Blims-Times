@@ -5,8 +5,6 @@ const nextConfig = {
         {
           protocol: "https",
           hostname: "firebasestorage.googleapis.com",
-          // Optionally, you can add pathname to restrict further:
-          // pathname: "/v0/b/**",
         },
       ],
     },

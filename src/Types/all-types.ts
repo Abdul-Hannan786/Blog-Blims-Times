@@ -26,3 +26,12 @@ export type CardType = {
     docID?:string
     imageURL?:string
 }
+
+export type UpdateProfileType = {
+    userName: string
+    contactInfo: string
+    hobbies: string
+    DOB: string
+    bio: string
+    file: File | null | undefined
+}

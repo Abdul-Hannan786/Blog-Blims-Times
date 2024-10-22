@@ -2,10 +2,12 @@
 
 import { useAuthContext } from "@/Context/AuthContext";
 import { signOutFunc } from "@/Firebase/firebaseAuth";
+import { db } from "@/Firebase/firebaseConfig";
+import { doc, DocumentData, onSnapshot } from "firebase/firestore";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BiLogOut } from "react-icons/bi";
 import { FaUser } from "react-icons/fa";
 import { FiLogIn } from "react-icons/fi";
@@ -13,6 +15,7 @@ import { HiHome } from "react-icons/hi";
 
 const Navbar = () => {
   const { user } = useAuthContext()!;
+  const [data, setData] = useState<DocumentData>()
   const route = useRouter();
 
   const handleLogout = () => {
@@ -20,8 +23,21 @@ const Navbar = () => {
     route.push("/");
   };
 
+  const fetchUser = async () => {
+    if(!user?.uid) return
+    const docRef = doc(db, "users", user?.uid)
+    onSnapshot(docRef, (doc) => {
+      const data = doc.data()
+      console.log(data)
+      setData(data)
+    })
+  };
+  
   useEffect(() => {
-    console.log(user);
+    if (!user) {
+      return;
+    }
+    fetchUser();
   }, [user]);
   return (
     <div className="navbar bg-primary">
@@ -144,8 +160,8 @@ const Navbar = () => {
             >
               <div className="w-10 rounded-full">
                 <Image
-                  alt="Tailwind CSS Navbar component"
-                  src="/images/user.png"
+                  alt="User Pic"
+                  src={data?.imageURL ? data?.imageURL : "/images/user.png"}
                   width={50}
                   height={50}
                   className="object-fill w-10 h-10"
@@ -163,7 +179,7 @@ const Navbar = () => {
                   className="bg-primary font-semibold hover:bg-sky-600"
                 >
                   <FaUser />
-                 Go to profile
+                  Go to profile
                 </Link>
               </li>
             </ul>
