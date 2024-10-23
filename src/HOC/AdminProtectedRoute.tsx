@@ -18,6 +18,9 @@ const AdminProtectedRoute = ({ children }: { children: ReactNode }) => {
       else if(user.userType === "admin"){
         route.push("/admin")
       } 
+    }else{
+      toast.error("You are not an admin")
+      route.push("/")
     }
   }, [user, route])
 
