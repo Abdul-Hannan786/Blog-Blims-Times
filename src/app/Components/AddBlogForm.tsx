@@ -57,7 +57,7 @@ const AddBlogForm = () => {
   };
 
   return (
-    <div className="relative flex flex-col p-7 xl:p-10 gap-5 mb-10">
+    <div className="relative flex flex-col p-7 xl:p-10 gap-5 mb-14">
       <h1 className="text-2xl font-bold text-center">Create a Blog</h1>
 
       <div className="flex gap-5 justify-center flex-col md:flex-row">
