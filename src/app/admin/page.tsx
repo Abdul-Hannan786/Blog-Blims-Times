@@ -83,7 +83,7 @@ const Admin = () => {
         </label>
       </div>
 
-      <div className="flex-grow overflow-y-auto p-3">
+      <div className="flex-grow overflow-y-auto p-3 mb-5">
         {filteredBlogs.length > 0 ? (
           <div className="mt-5">
             <div className="overflow-x-auto">

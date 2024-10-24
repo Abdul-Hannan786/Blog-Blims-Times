@@ -40,7 +40,7 @@ export default function Home() {
       : allBlogs.filter((blog) => blog.tag === selectedTag);
 
   return (
-    <div className="p-4 mb-7">
+    <div className="p-4">
       <label className="form-control w-full max-w-xs flex justify-start items-start">
         <div className="label">
           <span className="label-text font-semibold text-[15px]">
@@ -61,7 +61,7 @@ export default function Home() {
       </label>
 
       {filteredBlogs.length > 0 ? (
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center mb-7">
           <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-3 2xl:grid-cols-5 mb-6 gap-4">
             {filteredBlogs.map(
               ({ title, content, imageURL, firebaseID, slug, tag }) => (

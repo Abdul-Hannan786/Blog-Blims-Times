@@ -45,7 +45,7 @@ const AdminTable = ({
             </div>
           </div>
           <div>
-            <div className="font-bold">{title}</div>
+            <div className="font-bold line-clamp-2 w-28 sm:w-auto">{title}</div>
             <div className="text-sm opacity-50">{createdDate}</div>
           </div>
         </div>
