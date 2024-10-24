@@ -1,7 +1,6 @@
 "use client";
 
-import EditBlogForm from "@/Components/EditBlogForm";
-
+import EditBlogForm from "@/app/Components/EditBlogForm";
 
 
 type EditBlogType = {

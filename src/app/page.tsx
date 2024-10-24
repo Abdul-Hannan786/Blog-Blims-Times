@@ -1,11 +1,11 @@
 "use client";
 
-import BlogCard from "@/Components/BlogCard";
-import Footer from "@/Components/Footer";
-import Loader from "@/Components/Loader";
 import { db } from "@/Firebase/firebaseConfig";
 import { collection, DocumentData, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import Loader from "./Components/Loader";
+import Footer from "./Components/Footer";
+import BlogCard from "./Components/BlogCard";
 
 export default function Home() {
   const [selectedTag, setSelectedTag] = useState("All");

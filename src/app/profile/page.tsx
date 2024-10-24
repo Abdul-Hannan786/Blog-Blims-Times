@@ -1,5 +1,5 @@
-import Footer from '@/Components/Footer'
-import Profile from '@/Components/Profile'
+import Footer from "../Components/Footer"
+import Profile from "../Components/Profile"
 
 
 

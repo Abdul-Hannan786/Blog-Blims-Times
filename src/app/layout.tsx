@@ -4,8 +4,8 @@ import "./globals.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AuthContextProvider from "@/Context/AuthContext";
-import Navbar from "@/Components/Navbar";
 import HomeProtectedRoute from "@/HOC/HomeProtectedRoute";
+import Navbar from "./Components/Navbar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",

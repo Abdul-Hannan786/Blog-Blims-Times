@@ -1,4 +1,4 @@
-import ReadBlog from "@/Components/ReadBlog";
+import ReadBlog from "@/app/Components/ReadBlog";
 
 type ReadBlogType = {
   params: { slug: string };

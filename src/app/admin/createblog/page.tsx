@@ -1,4 +1,4 @@
-import AddBlogForm from '@/Components/AddBlogForm'
+import AddBlogForm from '@/app/Components/AddBlogForm'
 import React from 'react'
 
 const CreateBlog = () => {

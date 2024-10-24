@@ -1,7 +1,5 @@
 "use client";
 
-import AdminTable from "@/Components/AdminTable";
-import Loader from "@/Components/Loader";
 import { db } from "@/Firebase/firebaseConfig";
 import { DeleteBlog } from "@/Firebase/firebaseFirestore";
 import { collection, DocumentData, getDocs } from "firebase/firestore";
@@ -9,6 +7,8 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { MdAdd } from "react-icons/md";
 import { toast } from "react-toastify";
+import AdminTable from "../Components/AdminTable";
+import Loader from "../Components/Loader";
 
 const Admin = () => {
   const [cards, setCards] = useState<DocumentData[]>([]);
