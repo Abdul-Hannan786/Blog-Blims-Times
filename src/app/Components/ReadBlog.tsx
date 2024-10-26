@@ -72,7 +72,8 @@ const ReadBlog = ({ slug }: { slug: string }) => {
               <ReactMarkdown className="prose">{blog.content}</ReactMarkdown>
             </div>
           </div>
-          <Comments firebaseId={blog.firebaseID}/>
+          
+          <Comments firebaseID={blog.firebaseID} />
         </div>
       ) : (
         <></>

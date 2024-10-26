@@ -1,13 +1,17 @@
 "use client";
 
 import { auth, db } from "@/Firebase/firebaseConfig";
-import { doc, DocumentData, getDoc } from "firebase/firestore";
-import Image from "next/image";
+import { arrayUnion, doc, DocumentData, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import Loader from "./Loader";
 
-const Comments = ({ firebaseId }: { firebaseId: string }) => {
+const Comments = ({ firebaseID }: { firebaseID: string }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [user, setUser] = useState<DocumentData>();
+  const [commentText, setCommentText] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [comments, setComments] = useState<DocumentData[]>([]);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -17,31 +21,54 @@ const Comments = ({ firebaseId }: { firebaseId: string }) => {
     setIsModalOpen(false);
   };
 
-  const fetchUser = async () => {
-    const uid = auth.currentUser?.uid;
-    if (!uid) return;
-    const docRef = doc(db, "users", uid);
-    const user = await getDoc(docRef);
-    const userData = user.data();
-    setUser(userData);
+  useEffect(() => {
+    fetchAllComments();
+  }, []);
+
+  const addComment = async () => {
+    if (commentText.trim() === "") {
+      toast.error("Please write a comment");
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const uid = auth.currentUser?.uid;
+      const newComment = {
+        uid,
+        commentText,
+        timestamp: new Date().toDateString(),
+      };
+
+      const docRef = doc(db, "blogs", firebaseID);
+      await updateDoc(docRef, {
+        comments: arrayUnion(newComment),
+      });
+      setComments((prevCommments) => [...prevCommments, newComment]);
+      setCommentText("");
+      toast.success("Comment added successfully!");
+    } catch (e) {
+      console.log(e);
+      toast.error("Failed to add comment");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  useEffect(() => {
-    fetchUser();
-  }, []);
+  const fetchAllComments = () => {};
+
   return (
     <>
       <button
         className="btn btn-primary text-white font-semibold"
         onClick={openModal}
       >
-        See comments
+        Comments
       </button>
       {isModalOpen && (
-        <div className="modal modal-open fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 ">
+        <div className="modal modal-open fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="modal-box relative border-slate-100 border-2">
             <button
-              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+              className="btn btn-sm btn-square btn-ghost absolute right-2 top-2"
               onClick={closeModal}
             >
               ✕
@@ -53,24 +80,32 @@ const Comments = ({ firebaseId }: { firebaseId: string }) => {
                 <textarea
                   className="textarea textarea-primary w-full h-20 md:h-28"
                   placeholder="Enter Your Comment"
+                  value={commentText}
+                  onChange={(e) => setCommentText(e.target.value)}
                 ></textarea>
-                <button className="btn btn-primary w-full text-white font-semibold mt-2">
-                  Commment
+                <button
+                  onClick={addComment}
+                  className="btn btn-primary w-full text-white font-semibold mt-2"
+                >
+                  Comment
                 </button>
               </div>
+
+              {isLoading && <Loader />}
+
               <div className="flex flex-col gap-3">
-                <div className="flex items-center gap-2">
-                  <div className="avatar">
-                    <div className="w-10 rounded-full">
-                      <Image
-                        src={user?.imageURL ?? "/images/user.png"}
-                        width={20}
-                        height={20}
-                        alt="user [rofile pic"
-                      />
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="avatar">
+                      <div className="w-10 rounded-full">
+                        <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                      </div>
                     </div>
+                    <h3 className="font-semibold">Username</h3>
                   </div>
-                  <h3 className="font-semibold">{user?.userName}</h3>
+                  <div>
+                    <h3 className="font-semibold">Date of comment</h3>
+                  </div>
                 </div>
                 <div>
                   <p className="text-[16px] text-[#6E6E6E]">
