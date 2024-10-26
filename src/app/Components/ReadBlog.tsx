@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
+import Comments from "./Comments";
 
 const ReadBlog = ({ slug }: { slug: string }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -63,7 +64,7 @@ const ReadBlog = ({ slug }: { slug: string }) => {
           <div className="mt-5 p-2 flex flex-col gap-5">
             <h1 className="text-4xl font-black">{blog.title}</h1>
             <div>
-              <span className="inline-flex items-center px-3 py-2 text-sm font-medium bg-primary text-base-100 rounded">
+              <span className="inline-flex items-center px-3 py-2 text-sm font-medium bg-primary text-base-100 rounded text-white">
                 {blog.tag}
               </span>
             </div>
@@ -71,11 +72,11 @@ const ReadBlog = ({ slug }: { slug: string }) => {
               <ReactMarkdown className="prose">{blog.content}</ReactMarkdown>
             </div>
           </div>
+          <Comments firebaseId={blog.firebaseID}/>
         </div>
       ) : (
         <></>
       )}
-
       {isLoading && <Loader />}
     </div>
   );
