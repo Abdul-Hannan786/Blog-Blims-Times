@@ -1,16 +1,23 @@
 "use client";
 
 import { auth, db } from "@/Firebase/firebaseConfig";
-import { arrayUnion, doc, DocumentData, updateDoc } from "firebase/firestore";
+import {
+  arrayUnion,
+  doc,
+  DocumentData,
+  getDoc,
+  onSnapshot,
+  updateDoc,
+} from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Loader from "./Loader";
+import Image from "next/image";
 
 const Comments = ({ firebaseID }: { firebaseID: string }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentText, setCommentText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [comments, setComments] = useState<DocumentData[]>([]);
 
   const openModal = () => {
@@ -54,7 +61,31 @@ const Comments = ({ firebaseID }: { firebaseID: string }) => {
     }
   };
 
-  const fetchAllComments = () => {};
+  const fetchAllComments = () => {
+    const docRef = doc(db, "blogs", firebaseID);
+    const unsub = onSnapshot(docRef, async (commentSnapShot) => {
+      const allComments = commentSnapShot.data()?.comments || [];
+
+      const commentWithUserInfo = await Promise.all(
+        allComments.map(async (comment: { uid: string }) => {
+          const docRef = doc(db, "users", comment.uid);
+          const userDoc = await getDoc(docRef);
+          return {
+            ...comment,
+            username: userDoc.exists() ? userDoc.data().userName : "Anonymous",
+            imageURL: userDoc.exists()
+              ? userDoc.data().imageURL
+              : "/images/user.png",
+          };
+        })
+      );
+      setComments(commentWithUserInfo);
+    });
+
+    return () => {
+      unsub();
+    };
+  };
 
   return (
     <>
@@ -93,29 +124,40 @@ const Comments = ({ firebaseID }: { firebaseID: string }) => {
 
               {isLoading && <Loader />}
 
-              <div className="flex flex-col gap-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="avatar">
-                      <div className="w-10 rounded-full">
-                        <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+              <div className="flex flex-col gap-4">
+                {comments.length > 0 &&
+                  comments.map(
+                    ({ commentText, timestamp, imageURL, username }, index) => (
+                      <div key={index + commentText} className="flex flex-col gap-3">
+                        <div className="flex items-center gap-2">
+                          <div className="avatar">
+                            <div className="w-11 rounded-full">
+                              <Image
+                                src={imageURL}
+                                width={20}
+                                height={20}
+                                alt="user profile pic"
+                                className="object-cover w-full h-full"
+                              />
+                            </div>
+                          </div>
+                          <div className="flex flex-col justify-center">
+                            <h3 className="font-semibold">{username}</h3>
+                            <h3 className="font-semibold text-[12px] text-[#6E6E6E]">
+                              {timestamp}
+                            </h3>
+                          </div>
+                        </div>
+
+                        <div>
+                          <p className="text-[16px] text-[#6E6E6E]">
+                            {commentText}
+                          </p>
+                        </div>
+                        <hr />
                       </div>
-                    </div>
-                    <h3 className="font-semibold">Username</h3>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold">Date of comment</h3>
-                  </div>
-                </div>
-                <div>
-                  <p className="text-[16px] text-[#6E6E6E]">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                    Voluptate architecto, commodi dolores unde magni, provident,
-                    autem culpa sequi repellat aliquid modi incidunt aspernatur?
-                    Reprehenderit pariatur aliquam doloremque aperiam
-                  </p>
-                </div>
-                <hr />
+                    )
+                  )}
               </div>
             </div>
           </div>
