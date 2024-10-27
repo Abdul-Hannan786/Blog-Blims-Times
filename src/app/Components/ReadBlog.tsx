@@ -59,6 +59,7 @@ const ReadBlog = ({ slug }: { slug: string }) => {
               width={700}
               height={700}
               className="object-cover w-full h-full rounded-xl"
+              quality={100}
             />
           </div>
           <div className="mt-5 p-2 flex flex-col gap-5">

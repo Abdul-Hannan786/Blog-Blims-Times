@@ -103,10 +103,11 @@ const Profile = () => {
             <div className="w-28 rounded-full">
               <Image
                 src={profilePic}
+                width={200}
+                height={200}
                 alt="profile-pic"
-                width={300}
-                height={300}
                 className="w-full h-full object-cover"
+                quality={100}
               />
             </div>
           </div>

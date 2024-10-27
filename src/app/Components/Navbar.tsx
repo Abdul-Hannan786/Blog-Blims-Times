@@ -115,9 +115,10 @@ const Navbar = () => {
           <Image
             src={"/images/blog.webp"}
             alt="logo"
-            width={55}
-            height={25}
+            width={44}
+            height={44}
             className="rounded-full w-12 md:w-14"
+            quality={100}
           />
         </Link>
       </div>
@@ -162,10 +163,12 @@ const Navbar = () => {
                 <Image
                   alt="User Pic"
                   src={data?.imageURL ? data?.imageURL : "/images/user.png"}
-                  width={50}
-                  height={50}
+                  sizes="(max-width: 600px) 40px, 33px"
+                  width={33}
+                  height={33}
                   className="object-fill w-10 h-10"
                   priority
+                  quality={100}
                 />
               </div>
             </div>

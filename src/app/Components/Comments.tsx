@@ -11,7 +11,6 @@ import {
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import Loader from "./Loader";
 import Image from "next/image";
 
 const Comments = ({ firebaseID }: { firebaseID: string }) => {
@@ -50,7 +49,6 @@ const Comments = ({ firebaseID }: { firebaseID: string }) => {
       await updateDoc(docRef, {
         comments: arrayUnion(newComment),
       });
-      setComments((prevCommments) => [...prevCommments, newComment]);
       setCommentText("");
       toast.success("Comment added successfully!");
     } catch (e) {
@@ -62,29 +60,36 @@ const Comments = ({ firebaseID }: { firebaseID: string }) => {
   };
 
   const fetchAllComments = () => {
-    const docRef = doc(db, "blogs", firebaseID);
-    const unsub = onSnapshot(docRef, async (commentSnapShot) => {
-      const allComments = commentSnapShot.data()?.comments || [];
+    setIsLoading(true);
+    try {
+      const docRef = doc(db, "blogs", firebaseID);
+      const unsub = onSnapshot(docRef, async (commentSnapShot) => {
+        const allComments = commentSnapShot.data()?.comments || [];
 
-      const commentWithUserInfo = await Promise.all(
-        allComments.map(async (comment: { uid: string }) => {
-          const docRef = doc(db, "users", comment.uid);
-          const userDoc = await getDoc(docRef);
-          return {
-            ...comment,
-            username: userDoc.exists() ? userDoc.data().userName : "Anonymous",
-            imageURL: userDoc.exists()
-              ? userDoc.data().imageURL
-              : "/images/user.png",
-          };
-        })
-      );
-      setComments(commentWithUserInfo);
-    });
+        const commentPromises = allComments.map(
+          async (comment: { uid: string }) => {
+            const docRef = doc(db, "users", comment.uid);
+            const userDoc = await getDoc(docRef);
+            return {
+              ...comment,
+              username: userDoc.exists() && userDoc.data().userName,
+              imageURL: userDoc.exists() && userDoc.data().imageURL,
+            };
+          }
+        );
 
-    return () => {
-      unsub();
-    };
+        const commentWithUserInfo = await Promise.all(commentPromises);
+        setComments(commentWithUserInfo);
+      });
+
+      return () => {
+        unsub();
+      };
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -122,27 +127,37 @@ const Comments = ({ firebaseID }: { firebaseID: string }) => {
                 </button>
               </div>
 
-              {isLoading && <Loader />}
+              {isLoading && (
+                <div className="fixed inset-0 bg-white flex items-center justify-center z-50">
+                <span className="loading loading-spinner loading-lg text-primary"></span>
+              </div>
+              )}
 
               <div className="flex flex-col gap-4">
-                {comments.length > 0 &&
+                {comments.length > 0 ? (
                   comments.map(
                     ({ commentText, timestamp, imageURL, username }, index) => (
-                      <div key={index + commentText} className="flex flex-col gap-3">
+                      <div
+                        key={index + commentText}
+                        className="flex flex-col gap-3"
+                      >
                         <div className="flex items-center gap-2">
                           <div className="avatar">
                             <div className="w-11 rounded-full">
                               <Image
-                                src={imageURL}
-                                width={20}
-                                height={20}
+                                src={imageURL ?? "/images/user.png"}
+                                width={44}
+                                height={44}
                                 alt="user profile pic"
                                 className="object-cover w-full h-full"
+                                quality={100}
                               />
                             </div>
                           </div>
                           <div className="flex flex-col justify-center">
-                            <h3 className="font-semibold">{username}</h3>
+                            <h3 className="font-semibold">
+                              {username ?? "Anonymous"}
+                            </h3>
                             <h3 className="font-semibold text-[12px] text-[#6E6E6E]">
                               {timestamp}
                             </h3>
@@ -157,7 +172,12 @@ const Comments = ({ firebaseID }: { firebaseID: string }) => {
                         <hr />
                       </div>
                     )
-                  )}
+                  )
+                ) : (
+                  <div>
+                    <h1 className="text-center">No Comments</h1>
+                  </div>
+                )}
               </div>
             </div>
           </div>
