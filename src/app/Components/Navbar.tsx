@@ -15,7 +15,7 @@ import { HiHome } from "react-icons/hi";
 
 const Navbar = () => {
   const { user } = useAuthContext()!;
-  const [data, setData] = useState<DocumentData>()
+  const [data, setData] = useState<DocumentData>();
   const route = useRouter();
 
   const handleLogout = () => {
@@ -24,15 +24,15 @@ const Navbar = () => {
   };
 
   const fetchUser = async () => {
-    if(!user?.uid) return
-    const docRef = doc(db, "users", user?.uid)
+    if (!user?.uid) return;
+    const docRef = doc(db, "users", user?.uid);
     onSnapshot(docRef, (doc) => {
-      const data = doc.data()
-      console.log(data)
-      setData(data)
-    })
+      const data = doc.data();
+      console.log(data);
+      setData(data);
+    });
   };
-  
+
   useEffect(() => {
     if (!user) {
       return;
@@ -101,12 +101,14 @@ const Navbar = () => {
                 </Link>
               </li>
             )}
-            <li className="mt-1" onClick={handleLogout}>
-              <div className="bg-base-200 font-semibold text-neutral hover:bg-slate-400">
-                <BiLogOut />
-                Logout
-              </div>
-            </li>
+            {user && (
+              <li className="mt-1" onClick={handleLogout}>
+                <div className="bg-base-200 font-semibold text-neutral hover:bg-slate-400">
+                  <BiLogOut />
+                  Logout
+                </div>
+              </li>
+            )}
           </ul>
         </div>
       </div>
