@@ -13,6 +13,8 @@ const AddBlogForm = () => {
   const [tag, setTag] = useState("Entertainment");
   const [content, setContent] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [videoFile, setVideoFile] = useState<File>()
   const route = useRouter();
 
   const makeSlug = (title: string) => {
@@ -32,9 +34,22 @@ const AddBlogForm = () => {
     }
 
     const fileSizeLimit = 2 * 1024 * 1024; // 2MB
+    const videoSizeLimit = 30 * 1024 * 1024 // 30MB
     if (file && file.size > fileSizeLimit) {
-      toast.error("File size should be less than 2MB");
+      toast.error("Thumnail size should be less than 2MB");
       return;
+    }
+
+    if (videoFile) {
+      if (!videoFile.type.startsWith("video/")) {
+        toast.error("Only video files are allowed for the video section");
+        return;
+      }
+  
+      if (videoFile.size > videoSizeLimit) {
+        toast.error("Video size should be less than 30MB");
+        return;
+      }
     }
 
     setIsLoading(true);
@@ -43,6 +58,7 @@ const AddBlogForm = () => {
       await saveBlog({
         title,
         file,
+        videoFile,
         tag,
         content,
         slug,
@@ -82,7 +98,7 @@ const AddBlogForm = () => {
             <div className="form-control">
               <label className="label cursor-pointer" htmlFor="file">
                 <span className="label-text font-semibold text-[15px]">
-                  Upload Image
+                  Thumbnail
                 </span>
               </label>
               <input
@@ -92,6 +108,22 @@ const AddBlogForm = () => {
                 onChange={(e) => setFile(e.target.files?.[0])}
               />
             </div>
+
+
+            <div className="form-control">
+              <label className="label cursor-pointer" htmlFor="file">
+                <span className="label-text font-semibold text-[15px]">
+                  Video (Optional)
+                </span>
+              </label>
+              <input
+                type="file"
+                className="file-input file-input-bordered file-input-primary w-full"
+                id="file"
+                onChange={(e) => setVideoFile(e.target.files?.[0])}
+              />
+            </div>
+
             <div className="form-control">
               <label className="label cursor-pointer" htmlFor="tag">
                 <span className="label-text font-semibold text-[15px]">
@@ -156,3 +188,5 @@ const AddBlogForm = () => {
 };
 
 export default AddBlogForm;
+
+

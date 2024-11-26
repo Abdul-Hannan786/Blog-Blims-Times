@@ -30,6 +30,7 @@ export async function saveUser(email: string, userName: string, uid: string) {
 export async function saveBlog({
   title,
   file,
+  videoFile,
   tag,
   content,
   slug,
@@ -68,7 +69,34 @@ export async function saveBlog({
       });
     };
 
+    const uploadVideo = async () => {
+      if (!videoFile) return;
+      const videoRef = ref(storage, `videos/${makeImageName(videoFile)}`);
+      const uploadTask = uploadBytesResumable(videoRef, videoFile);
+
+      return new Promise((resolve, reject) => {
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log("Upload is " + progress + "% done");
+          },
+          (error) => {
+            console.error("Upload error: ", error);
+            reject(error);
+          },
+          async () => {
+            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+            console.log("File available at", downloadURL);
+            resolve(downloadURL);
+          }
+        );
+      });
+    };
+
     const imageURL = await uploadImage();
+    const videoURL = await uploadVideo();
 
     const newBlog = {
       title,
@@ -77,6 +105,7 @@ export async function saveBlog({
       slug,
       createdDate,
       imageURL,
+      videoURL,
     };
     const collectionRef = collection(db, "blogs");
     const docRef = await addDoc(collectionRef, newBlog);
@@ -111,6 +140,7 @@ export async function updateBlog({
   content,
   firebaseID,
   file,
+  videoFile,
 }: BlogType) {
   const uid = auth.currentUser?.uid;
 
@@ -167,12 +197,40 @@ export async function updateBlog({
         imageURL = await uploadImage();
       }
 
+      const uploadVideo = async () => {
+        if (!videoFile) return;
+        const videoRef = ref(storage, `videos/${makeImageName(videoFile)}`);
+        const uploadTask = uploadBytesResumable(videoRef, videoFile);
+  
+        return new Promise((resolve, reject) => {
+          uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+              const progress =
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log("Upload is " + progress + "% done");
+            },
+            (error) => {
+              console.error("Upload error: ", error);
+              reject(error);
+            },
+            async () => {
+              const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+              console.log("File available at", downloadURL);
+              resolve(downloadURL);
+            }
+          );
+        });
+      };
+
+      const videoURL = await uploadVideo();
       const collectionRef = doc(db, "blogs", firebaseID);
 
-      const updatedBlog: BlogType = {
+      const updatedBlog = {
         title,
         tag,
         content,
+        videoURL,
         imageURL,
       };
 
@@ -219,7 +277,10 @@ export async function UpdateProfile({
   try {
     const uploadImage = async () => {
       if (!file) return;
-      const imageRef = ref(storage, `images/profile-images/${makeImageName(file)}`);
+      const imageRef = ref(
+        storage,
+        `images/profile-images/${makeImageName(file)}`
+      );
       const uploadTask = uploadBytesResumable(imageRef, file);
 
       return new Promise((resolve, reject) => {

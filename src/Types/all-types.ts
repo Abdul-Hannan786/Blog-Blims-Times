@@ -9,11 +9,11 @@ export type BlogType = {
     title: string
     file?: File
     tag: string
+    videoFile?: File
     content: string
     slug?: string
     createdDate?: string
     firebaseID?:string
-    imageURL?:string
 }
 
 export type CardType = {

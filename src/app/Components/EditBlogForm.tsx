@@ -18,6 +18,7 @@ const EditBlogForm = ({slug}: {slug: string}) => {
   const [tag, setTag] = useState("Entertainment");
   const [content, setContent] = useState("");
   const [firebaseID, setFirebaseID] = useState("")
+  const [videoFile, setVideoFile] = useState<File>()
   const route = useRouter()
 
   useEffect(() => {
@@ -57,9 +58,29 @@ const EditBlogForm = ({slug}: {slug: string}) => {
       toast.error("Please fill all the fields");
       return;
     }
+
+    const fileSizeLimit = 2 * 1024 * 1024; // 2MB
+    const videoSizeLimit = 30 * 1024 * 1024 // 30MB
+    if (file && file.size > fileSizeLimit) {
+      toast.error("Thumnail size should be less than 2MB");
+      return;
+    }
+
+    if (videoFile) {
+      if (!videoFile.type.startsWith("video/")) {
+        toast.error("Only video files are allowed for the video section");
+        return;
+      }
+  
+      if (videoFile.size > videoSizeLimit) {
+        toast.error("Video size should be less than 30MB");
+        return;
+      }
+    }
+
     setIsLoading(true)
     try{
-      await updateBlog({title, tag, content, file, firebaseID})
+      await updateBlog({title, tag, content, file, videoFile, firebaseID})
       route.push("/admin")
     }
     catch(e){
@@ -96,7 +117,7 @@ const EditBlogForm = ({slug}: {slug: string}) => {
             <div className="form-control">
               <label className="label cursor-pointer" htmlFor="file">
                 <span className="label-text font-semibold text-[15px]">
-                  Upload Image
+                  Thumbnail
                 </span>
               </label>
               <input
@@ -104,6 +125,19 @@ const EditBlogForm = ({slug}: {slug: string}) => {
                 className="file-input file-input-bordered file-input-primary w-full"
                 id="file"
                 onChange={(e) => setFile(e.target.files?.[0])}
+              />
+            </div>
+            <div className="form-control">
+              <label className="label cursor-pointer" htmlFor="file">
+                <span className="label-text font-semibold text-[15px]">
+                  Video (Optional)
+                </span>
+              </label>
+              <input
+                type="file"
+                className="file-input file-input-bordered file-input-primary w-full"
+                id="file"
+                onChange={(e) => setVideoFile(e.target.files?.[0])}
               />
             </div>
             <div className="form-control">

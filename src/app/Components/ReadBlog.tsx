@@ -52,15 +52,21 @@ const ReadBlog = ({ slug }: { slug: string }) => {
     <div className="py-12 px-4 sm:px-10 lg:px-16 xl:px-24">
       {blog ? (
         <div className="w-full h-auto rounded-xl shadow-2xl p-3 sm:p-8 lg:p-12 py-4 lg:py-10 border-slate-100 border-2">
-          <div className="w-full rounded-lg h-[16rem] sm:h-[20rem] md:h-[22rem] lg:h-[24rem] xl:h-[30rem]">
-            <Image
-              src={blog?.imageURL}
-              alt="blog-image"
-              width={700}
-              height={700}
-              className="object-cover w-full h-full rounded-xl"
-              quality={100}
-            />
+          <div className="w-full rounded-lg h-[14rem] sm:h-[18rem] md:h-[20rem] lg:h-[22rem] xl:h-[28rem]">
+            {blog.videoURL ? (
+              <video controls loop autoPlay className="w-full h-full rounded-xl object-cover border-slate-100 border-2">
+                <source src={blog.videoURL} />
+              </video>
+            ) : (
+              <Image
+                src={blog?.imageURL}
+                alt="blog-image"
+                width={700}
+                height={700}
+                className="object-cover w-full h-full rounded-xl"
+                quality={100}
+              />
+            )}
           </div>
           <div className="mt-5 p-2 flex flex-col gap-5">
             <h1 className="text-4xl font-black">{blog.title}</h1>
@@ -73,7 +79,7 @@ const ReadBlog = ({ slug }: { slug: string }) => {
               <ReactMarkdown className="prose">{blog.content}</ReactMarkdown>
             </div>
           </div>
-          
+
           <Comments firebaseID={blog.firebaseID} />
         </div>
       ) : (
