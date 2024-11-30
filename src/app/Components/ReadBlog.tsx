@@ -51,19 +51,23 @@ const ReadBlog = ({ slug }: { slug: string }) => {
   return (
     <div className="py-12 px-4 sm:px-10 lg:px-16 xl:px-24">
       {blog ? (
-        <div className="w-full h-auto rounded-xl shadow-2xl p-3 sm:p-8 lg:p-12 py-4 lg:py-10 border-slate-100 border-2">
-          <div className="w-full rounded-lg h-[14rem] sm:h-[18rem] md:h-[20rem] lg:h-[22rem] xl:h-[28rem]">
+        <div className="w-full h-auto rounded-xl shadow-2xl p-3 sm:p-8 lg:p-14 py-4 lg:py-10 border-slate-100 border-2">
+          <div className="relative w-full rounded-lg h-[14rem] sm:h-[18rem] md:h-[20rem] lg:h-[23rem] xl:h-[29rem]">
             {blog.videoURL ? (
-              <video controls loop autoPlay className="w-full h-full rounded-xl object-cover border-slate-100 border-2">
+              <video
+                controls
+                loop
+                autoPlay
+                className="w-full h-full rounded-xl object-cover md:object-contain border-slate-100 border-2"
+              >
                 <source src={blog.videoURL} />
               </video>
             ) : (
               <Image
                 src={blog?.imageURL}
                 alt="blog-image"
-                width={700}
-                height={700}
-                className="object-cover w-full h-full rounded-xl"
+                fill
+                className="object-cover rounded-xl"
                 quality={100}
               />
             )}
@@ -71,7 +75,7 @@ const ReadBlog = ({ slug }: { slug: string }) => {
           <div className="mt-5 p-2 flex flex-col gap-5">
             <h1 className="text-4xl font-black">{blog.title}</h1>
             <div>
-              <span className="inline-flex items-center px-3 py-2 text-sm font-medium bg-primary text-base-100 rounded text-white">
+              <span className="inline-flex items-center px-3 py-2 text-sm font-medium bg-primary rounded text-white">
                 {blog.tag}
               </span>
             </div>
@@ -91,3 +95,5 @@ const ReadBlog = ({ slug }: { slug: string }) => {
 };
 
 export default ReadBlog;
+
+

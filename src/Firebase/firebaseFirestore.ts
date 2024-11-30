@@ -201,7 +201,7 @@ export async function updateBlog({
         if (!videoFile) return;
         const videoRef = ref(storage, `videos/${makeImageName(videoFile)}`);
         const uploadTask = uploadBytesResumable(videoRef, videoFile);
-  
+
         return new Promise((resolve, reject) => {
           uploadTask.on(
             "state_changed",
@@ -225,14 +225,23 @@ export async function updateBlog({
 
       const videoURL = await uploadVideo();
       const collectionRef = doc(db, "blogs", firebaseID);
-
-      const updatedBlog = {
-        title,
-        tag,
-        content,
-        videoURL,
-        imageURL,
-      };
+      let updatedBlog;
+      if (videoURL) {
+        updatedBlog = {
+          title,
+          tag,
+          content,
+          videoURL,
+          imageURL,
+        };
+      } else {
+        updatedBlog = {
+          title,
+          tag,
+          content,
+          imageURL,
+        };
+      }
 
       await updateDoc(collectionRef, updatedBlog);
       toast.success("Blog edited successfully!");

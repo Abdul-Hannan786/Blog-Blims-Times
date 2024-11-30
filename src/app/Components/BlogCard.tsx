@@ -28,6 +28,7 @@ const BlogCard = ({ title, content, imageURL, slug, tag }: BlogCardType) => {
           width={800}
           height={800}
           className="object-cover w-full h-full rounded-lg"
+          quality={100}
         />
       </div>
       <div className="flex flex-col mt-3 gap-3 p-2">

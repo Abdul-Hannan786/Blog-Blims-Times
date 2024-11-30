@@ -26,7 +26,6 @@ export default function Home() {
         return obj;
       });
       setAllBlogs(blogs);
-      console.log(allBlogs);
     } catch (e) {
       console.log(e);
     } finally {
