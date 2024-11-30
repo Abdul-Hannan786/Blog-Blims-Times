@@ -97,7 +97,7 @@ const ReadBlog = ({ slug }: { slug: string }) => {
       }
     }
     catch(err){
-      console.error("Error updating likes:", error);
+      console.error("Error updating likes:", err);
       toast.error("An error occurred while updating likes.");
     }
   };
