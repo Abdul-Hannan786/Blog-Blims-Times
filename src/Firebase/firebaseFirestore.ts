@@ -332,3 +332,4 @@ export async function UpdateProfile({
     toast.error("Error in updating profile");
   }
 }
+
