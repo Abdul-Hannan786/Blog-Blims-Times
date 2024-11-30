@@ -51,14 +51,14 @@ const ReadBlog = ({ slug }: { slug: string }) => {
   return (
     <div className="py-12 px-4 sm:px-10 lg:px-16 xl:px-24">
       {blog ? (
-        <div className="w-full h-auto rounded-xl shadow-2xl p-3 sm:p-8 lg:p-14 py-4 lg:py-10 border-slate-100 border-2">
-          <div className="relative w-full rounded-lg h-[14rem] sm:h-[18rem] md:h-[20rem] lg:h-[23rem] xl:h-[29rem]">
+        <div className="w-full h-auto rounded-xl shadow-2xl p-3 sm:p-8 lg:p-12 py-4 lg:py-10 border-slate-100 border-2">
+          <div className="flex justify-center w-full rounded-lg h-[14rem] sm:h-[18rem] md:h-[20rem] lg:h-[22rem] xl:h-[28rem]">
             {blog.videoURL ? (
               <video
                 controls
                 loop
                 autoPlay
-                className="w-full h-full rounded-xl object-cover md:object-contain border-slate-100 border-2"
+                className="h-full rounded-xl object-cover border-slate-100 border-2"
               >
                 <source src={blog.videoURL} />
               </video>
