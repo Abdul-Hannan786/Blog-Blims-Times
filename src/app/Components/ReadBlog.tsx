@@ -58,7 +58,7 @@ const ReadBlog = ({ slug }: { slug: string }) => {
                 controls
                 loop
                 autoPlay
-                className="h-full rounded-xl object-cover border-slate-100 border-2"
+                className="h-full w-full md:w-auto rounded-xl object-cover border-slate-100 border-2"
               >
                 <source src={blog.videoURL} />
               </video>
