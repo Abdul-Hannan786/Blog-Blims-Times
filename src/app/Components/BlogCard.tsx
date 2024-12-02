@@ -33,12 +33,12 @@ const BlogCard = ({ title, content, imageURL, slug, tag }: BlogCardType) => {
       </div>
       <div className="flex flex-col mt-3 gap-3 p-2">
         <h2 className="font-bold text-[21px] line-clamp-1">{title}</h2>
-        <ReactMarkdown className="line-clamp-4 text-slate-700 text-[15px] font-medium">
+        <ReactMarkdown className="line-clamp-4 text-neutral text-[15px] font-medium">
           {content}
         </ReactMarkdown>
         <div className="flex items-center justify-between mt-3">
           <button
-            className="btn btn-sm btn-primary font-semibold"
+            className="btn btn-sm btn-primary text-white font-semibold"
             onClick={seeMore}
           >
             See More

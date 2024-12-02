@@ -14,10 +14,10 @@ const config: Config = {
         "custom-lg":
           "0 10px 15px -3px rgba(0, 0, 0, 0.7), 0 4px 6px -4px rgba(0, 0, 0, 0.5)",
       },
-      // colors: {
-      //   background: "var(--background)",
-      //   foreground: "var(--foreground)",
-      // },
+      prose: {
+        light: "#ff0000",
+        dark: "#d1d5db"
+      }
     },
     screens: {
       "sm": "600px",

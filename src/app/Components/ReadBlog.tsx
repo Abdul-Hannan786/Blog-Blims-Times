@@ -127,14 +127,14 @@ const ReadBlog = ({ slug }: { slug: string }) => {
             )}
           </div>
           <div className="mt-5 p-2 flex flex-col gap-5">
-            <h1 className="text-4xl font-black">{blog.title}</h1>
-            <div>
+            <h1 className="text-4xl text-neutral font-black">{blog.title}</h1>
+            <div> 
               <span className="inline-flex items-center px-3 py-2 text-sm font-medium bg-primary rounded text-white">
                 {blog.tag}
               </span>
             </div>
             <div className="prose prose-lg">
-              <ReactMarkdown className="prose">{blog.content}</ReactMarkdown>
+              <ReactMarkdown className="prose text-neutral leading-relaxed">{blog.content}</ReactMarkdown>
             </div>
           </div>
           <div className="flex items-center gap-5">
@@ -161,7 +161,7 @@ const ReadBlog = ({ slug }: { slug: string }) => {
               ) : (
                 <svg
                   aria-label="Like"
-                  className="x1lliihq x1n2onr6 x1cp0k07 borde"
+                  className="text-neutral"
                   fill="currentColor"
                   height="26"
                   role="img"
@@ -176,7 +176,7 @@ const ReadBlog = ({ slug }: { slug: string }) => {
                 </svg>
               )}
 
-              <p className="text-xl text-neutral">{likeCount}</p>
+              <p className="text-xl text-neutral">{likeCount} {likeCount > 1 ? " likes": " like"}</p>
             </div>
           </div>
         </div>
