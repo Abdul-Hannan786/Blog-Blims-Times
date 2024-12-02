@@ -60,7 +60,7 @@ const EditBlogForm = ({slug}: {slug: string}) => {
     }
 
     const fileSizeLimit = 2 * 1024 * 1024; // 2MB
-    const videoSizeLimit = 30 * 1024 * 1024 // 30MB
+    const videoSizeLimit = 40 * 1024 * 1024 // 40MB
     if (file && file.size > fileSizeLimit) {
       toast.error("Thumnail size should be less than 2MB");
       return;
