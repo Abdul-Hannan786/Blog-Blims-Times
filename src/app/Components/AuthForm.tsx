@@ -52,13 +52,13 @@ const AuthForm = ({ type, msg }: AuthFormType) => {
     <>
       <div className="flex flex-col justify-center p-5">
         <div className="card bg-base-100 w-full max-w-[430px] shrink-0 shadow-2xl mx-auto mt-16 border-slate-100 border-2">
-          <h1 className="text-center font-bold text-2xl mt-5">Welcome Back</h1>
-          <p className="text-center mt-1 text-gray-600">{msg}</p>
+          <h1 className="text-center text-neutral font-bold text-2xl mt-5">Welcome Back</h1>
+          <p className="text-center mt-1 text-neutral">{msg}</p>
           <form className="card-body">
             {type === "signup" && (
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text font-semibold text-[16px]">
+                  <span className="label-text text-neutral font-semibold text-[16px]">
                     Name
                   </span>
                 </label>
@@ -74,7 +74,7 @@ const AuthForm = ({ type, msg }: AuthFormType) => {
 
             <div className="form-control ">
               <label className="label">
-                <span className="label-text font-semibold text-[15px]">
+                <span className="label-text text-neutral font-semibold text-[15px]">
                   Email
                 </span>
               </label>
@@ -88,7 +88,7 @@ const AuthForm = ({ type, msg }: AuthFormType) => {
             </div>
             <div className="form-control">
               <label className="label">
-                <span className="label-text font-semibold text-[15px]">
+                <span className="label-text text-neutral font-semibold text-[15px]">
                   Password
                 </span>
               </label>
@@ -104,16 +104,16 @@ const AuthForm = ({ type, msg }: AuthFormType) => {
               {type === "signup" ? (
                 <>
                   <button
-                    className="btn btn-primary text-[15px]"
+                    className="btn btn-primary text-white text-[15px]"
                     onClick={handleSignup}
                   >
                     Sign up
                   </button>
-                  <p className="text-center mt-5 text-gray-600">
+                  <p className="text-center mt-5 text-neutral">
                     Already have an account?{" "}
                     <Link
                       href={"./signin"}
-                      className="font-semibold text-primary"
+                      className="font-bold text-neutral hover:underline"
                     >
                       Sign In
                     </Link>
@@ -122,16 +122,16 @@ const AuthForm = ({ type, msg }: AuthFormType) => {
               ) : (
                 <>
                   <button
-                    className="btn btn-primary text-[16px]"
+                    className="btn btn-primary text-white text-[16px]"
                     onClick={handleLogin}
                   >
                     Sign in
                   </button>
-                  <p className="text-center mt-5 text-gray-600">
+                  <p className="text-center mt-5 text-neutral">
                     Don&apos;t have an account yet?{" "}
                     <Link
                       href={"./signup"}
-                      className="font-semibold text-primary"
+                      className="font-bold text-neutral hover:underline"
                     >
                       Sign Up
                     </Link>

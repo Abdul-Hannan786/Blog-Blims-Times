@@ -149,23 +149,23 @@ const Comments = ({ firebaseID }: { firebaseID: string }) => {
                                 width={44}
                                 height={44}
                                 alt="user profile pic"
-                                className="object-cover w-full h-full"
+                                className="object-contain w-full"
                                 quality={100}
                               />
                             </div>
                           </div>
                           <div className="flex flex-col justify-center">
-                            <h3 className="font-semibold">
+                            <h3 className="font-semibold text-neutral">
                               {username ?? "Anonymous"}
                             </h3>
-                            <h3 className="font-semibold text-[12px] text-[#6E6E6E]">
+                            <h3 className="text-[12px] text-neutral">
                               {timestamp}
                             </h3>
                           </div>
                         </div>
 
                         <div>
-                          <p className="text-[16px] text-[#6E6E6E]">
+                          <p className="text-[16px] text-neutral">
                             {commentText}
                           </p>
                         </div>
